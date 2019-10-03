@@ -1,6 +1,16 @@
 This project was bootstrapped with React, Node with Express framework.
 
-Before installing, download and install Node.js. Node.js 0.10 or higher is required.
+## Demo URL:
+https://react-node-svg-generator.herokuapp.com/api/svg?header=React%20Node&title=Dynamic&subHeader=SVG
+
+Here try changing query params:
+`header`
+`title`
+`subHeader`
+
+You'll be able to see dyamic content rendering in SVG.
+
+## Before installing, download and install Node.js. Node.js 0.10 or higher is required.
 
 Installation is done using the npm install command:
 
@@ -21,7 +31,7 @@ Babel
 
 
 ## SVG 
-Scalable Vector Graphics (SVG) is an XML-based vector image format for      two-dimensional graphics with support for interactivity and animation.
+Scalable Vector Graphics (SVG) is an XML-based vector image format for two-dimensional graphics with support for interactivity and animation.
 
 SVG supports JavaScript. Browsers will only run the JavaScript.
 
@@ -37,7 +47,7 @@ To render React app as a server side and Make an utility to serve dynamic genera
  Many times we need to customize SVG according to our requirements and need to reuse the same SVG with different configuration. So to keep at frontend and customize according to out requirements will increase complexity and decrease performance and we can not re-use the same logics in different application or platform. Also it makes no sense to serve millions of SVG’s via static files or via bucket storage. How about a solution where we can generate our SVG’s in run time & provide it to our client side applications.
 
 ## HOW TO / Initial Idea to achieve
-
+ `
 import React from 'react';
 
 export default class App extends React.Component {
@@ -60,6 +70,7 @@ export default class App extends React.Component {
    )
  }
 }
+`
 We can make any type of complex SVG as well using React and also we can use any npm libraries to make things easier. 
 
 But the concern is We need to customize at backend and get customized SVG on frontend. React has no real DOM dependency, so you can render it on a server easily.
@@ -75,7 +86,7 @@ Need to install express, react, react-dom, body-parser, babel.
 
 ## Package.json
 Contain all dependency
-
+`
 {
  "name": "svg-node-react",
  "version": "1.0.0",
@@ -99,12 +110,12 @@ Contain all dependency
    "xmldom": "^0.1.27"
  }
 }
+`
 
 ## server.js 
  Initial file to run the backend code
 We use simple Express app that handles incoming requests for SVG graphs (server.js):
-
-
+`
 require("babel-register");
 const express = require('express');
 const app = express();
@@ -124,48 +135,48 @@ const server = app.listen(3006, function () {
  const host = server.address().address;
  const port = server.address().port;
  console.log('XML parser and SVG, JSON generator app listening at http://%s:%s', host, port);
-});
+});`
 
 ## .babelrc 
  Allow to support react, es6 syntax
-
+`
 {
    "presets": ["es2015", "stage-0", "react"]
- }
+ }`
 
 ## routes/index.js 
 Contain all routes.
-
+`
 const express = require('express');
 const router = express.Router();
 const svgGenerator = require('../controllers/svgGenerator');
 
 router.get('/svg', svgGenerator.getSVG); // this route returns the SVG generated from react app
-module.exports = router;
+module.exports = router;`
 
 ## controllers/svgGenerator.js
 As you can see, only these lines are really from our application, rest server.js had generic boilerplate code for node express app:
-
+`
 const svgRenderer = require('../public/scripts/svg_renderer').default;
 
 exports.getSVG = function(req, res) {
    const svg = svgRenderer(req.query);
    res.send(svg);
-}
+}`
 
 ## public/scripts/svg_render.js 
 To pass parameter to make dynamic SVG and return SVG to the express route.
-
+`
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import App from './app'
 export default function(data) {
  return ReactDOMServer.renderToStaticMarkup(<App data={data} />);
-}
+}`
 
 ## public/scripts/app.js 
 In this script, we will create a configurable SVG.
-
+`
 import React from 'react';
 export default class App extends React.Component {
  render() {
@@ -186,7 +197,7 @@ export default class App extends React.Component {
      </svg>
    )
  }
-}
+}`
 
 ## node server.js
 To test it, we would run command:
