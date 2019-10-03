@@ -55,7 +55,7 @@ To render React app as a server side and Make an utility to serve dynamic genera
 ## server.js 
 Initial file to run the backend code
 We use simple Express app that handles incoming requests for SVG graphs (server.js):
-`
+```
 require("babel-register");
 const express = require('express');
 const app = express();
@@ -75,11 +75,13 @@ const server = app.listen(3006, function () {
  const host = server.address().address;
  const port = server.address().port;
  console.log('XML parser and SVG, JSON generator app listening at http://%s:%s', host, port);
-});`
+});
+```
+
 
 ## routes/index.js 
 Contain all routes.
-`
+```
 const express = require('express');
 const router = express.Router();
 const svgGenerator = require('../controllers/svgGenerator');
@@ -95,21 +97,23 @@ const svgRenderer = require('../public/scripts/svg_renderer').default;
 exports.getSVG = function(req, res) {
    const svg = svgRenderer(req.query);
    res.send(svg);
-}`
+}
+```
 
 ## public/scripts/svg_render.js 
 To pass parameter to make dynamic SVG and return SVG to the express route.
-`
+```
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import App from './app'
 export default function(data) {
  return ReactDOMServer.renderToStaticMarkup(<App data={data} />);
-}`
+}
+```
 
 ## public/scripts/app.js 
 In this script, we will create a configurable SVG.
-`
+```
 import React from 'react';
 export default class App extends React.Component {
  render() {
@@ -130,13 +134,14 @@ export default class App extends React.Component {
      </svg>
    )
  }
-}`
+}
+```
 
-## node server.js
+## Now Run `node server.js`
 To test it, we would run command:
 
 Open : 
-http://localhost:3006/api/svg?header=React%20Node&title=Dynamic&subHeader=SVG
+http://localhost:3000/api/svg?header=React%20Node&title=Dynamic&subHeader=SVG
 
 ## Conclusion
 We successfully generated dynamic SVG and now we can easily reuse it with dynamic data at any platform(Server-side rendering!). Here we’re using custom data rendered from query params in the api call ‘/svg?header=React Node&title=Dynamic&subHeader=SVG’ , similarly we can configure and GET OR POST route with custom query params or request body to achieve dynamic rendering by passing necessary template/xml/json data.
