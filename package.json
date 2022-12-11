@@ -15,7 +15,7 @@
     "babel-register": "^6.26.0",
     "body-parser": "^1.19.0",
     "eslint-plugin-react": "^3.16.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "xmldom": "^0.1.27"
